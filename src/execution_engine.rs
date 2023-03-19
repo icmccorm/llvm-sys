@@ -97,19 +97,19 @@ extern "C" {
         SizeOfOptions: ::libc::size_t,
     );
     pub fn LLVMExecutionEngineSetMiriReadHook(
-        EE: *mut LLVMExecutionEngineRefLLVMExecutionEngineRef, 
+        EE: *mut LLVMExecutionEngineRef, 
         IncomingReadHook: MiriMemoryHook
     );
     pub fn LLVMExecutionEngineSetMiriWriteHook(
-        EE: *mut LLVMExecutionEngineRefLLVMExecutionEngineRef, 
+        EE: *mut LLVMExecutionEngineRef, 
         IncomingWriteHook: MiriMemoryHook
     );      
     pub fn LLVMExecutionEngineSetCallHook(
-        EE: *mut LLVMExecutionEngineRefLLVMExecutionEngineRef, 
+        EE: *mut LLVMExecutionEngineRef, 
         IncomingWriteHook: MiriStackHook
     );  
     pub fn LLVMExecutionEngineSetReturnHook(
-        EE: *mut LLVMExecutionEngineRefLLVMExecutionEngineRef, 
+        EE: *mut LLVMExecutionEngineRef, 
         IncomingWriteHook: MiriStackHook
     );
     /// Create an MCJIT execution engine for a module, with the given options.
@@ -197,10 +197,6 @@ extern "C" {
         EE: LLVMExecutionEngineRef,
         OutError: *mut *mut ::libc::c_char,
     ) -> LLVMBool;
-
-    pub fn LLVMExecutionEngineSetMiriReadHook(
-        EE: LLVMExecutionEngineRef, 
-        IncomingMiriHooks: MiriReCollection) -> ::libc::c_void;
 
     // Operations on memory managers
     // Create a simple custom MCJIT memory manager.
