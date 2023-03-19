@@ -97,19 +97,19 @@ extern "C" {
         SizeOfOptions: ::libc::size_t,
     );
     pub fn LLVMExecutionEngineSetMiriReadHook(
-        EE: *mut LLVMExecutionEngineRef, 
+        EE: LLVMExecutionEngineRef, 
         IncomingReadHook: MiriMemoryHook
     );
     pub fn LLVMExecutionEngineSetMiriWriteHook(
-        EE: *mut LLVMExecutionEngineRef, 
+        EE: LLVMExecutionEngineRef, 
         IncomingWriteHook: MiriMemoryHook
     );      
     pub fn LLVMExecutionEngineSetMiriCallHook(
-        EE: *mut LLVMExecutionEngineRef, 
+        EE: LLVMExecutionEngineRef, 
         IncomingWriteHook: MiriStackHook
     );  
     pub fn LLVMExecutionEngineSetMiriReturnHook(
-        EE: *mut LLVMExecutionEngineRef, 
+        EE: LLVMExecutionEngineRef, 
         IncomingWriteHook: MiriStackHook
     );
     /// Create an MCJIT execution engine for a module, with the given options.
