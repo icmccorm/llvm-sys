@@ -104,11 +104,11 @@ extern "C" {
         EE: *mut LLVMExecutionEngineRef, 
         IncomingWriteHook: MiriMemoryHook
     );      
-    pub fn LLVMExecutionEngineSetCallHook(
+    pub fn LLVMExecutionEngineSetMiriCallHook(
         EE: *mut LLVMExecutionEngineRef, 
         IncomingWriteHook: MiriStackHook
     );  
-    pub fn LLVMExecutionEngineSetReturnHook(
+    pub fn LLVMExecutionEngineSetMiriReturnHook(
         EE: *mut LLVMExecutionEngineRef, 
         IncomingWriteHook: MiriStackHook
     );
