@@ -3,6 +3,7 @@
 use super::prelude::*;
 use super::target::LLVMTargetDataRef;
 use super::target_machine::{LLVMCodeModel, LLVMTargetMachineRef};
+use super::miri::*;
 
 #[derive(Debug)]
 pub enum LLVMOpaqueGenericValue {}
@@ -95,7 +96,22 @@ extern "C" {
         Options: *mut LLVMMCJITCompilerOptions,
         SizeOfOptions: ::libc::size_t,
     );
-
+    pub fn LLVMExecutionEngineSetMiriReadHook(
+        EE: *mut LLVMExecutionEngineRefLLVMExecutionEngineRef, 
+        IncomingReadHook: MiriMemoryHook
+    );
+    pub fn LLVMExecutionEngineSetMiriWriteHook(
+        EE: *mut LLVMExecutionEngineRefLLVMExecutionEngineRef, 
+        IncomingWriteHook: MiriMemoryHook
+    );      
+    pub fn LLVMExecutionEngineSetCallHook(
+        EE: *mut LLVMExecutionEngineRefLLVMExecutionEngineRef, 
+        IncomingWriteHook: MiriStackHook
+    );  
+    pub fn LLVMExecutionEngineSetReturnHook(
+        EE: *mut LLVMExecutionEngineRefLLVMExecutionEngineRef, 
+        IncomingWriteHook: MiriStackHook
+    );
     /// Create an MCJIT execution engine for a module, with the given options.
     ///
     /// It is
@@ -181,6 +197,10 @@ extern "C" {
         EE: LLVMExecutionEngineRef,
         OutError: *mut *mut ::libc::c_char,
     ) -> LLVMBool;
+
+    pub fn LLVMExecutionEngineSetMiriReadHook(
+        EE: LLVMExecutionEngineRef, 
+        IncomingMiriHooks: MiriReCollection) -> ::libc::c_void;
 
     // Operations on memory managers
     // Create a simple custom MCJIT memory manager.

@@ -118,6 +118,7 @@ pub mod remarks;
 pub mod support;
 pub mod target;
 pub mod target_machine;
+pub mod miri;
 
 pub mod transforms {
     pub mod aggressive_instcombine;
