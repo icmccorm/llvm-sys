@@ -3,8 +3,8 @@
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
 pub struct Provenance {
-    pub borrow_tag: ::std::os::raw::c_ulonglong,
     pub alloc_id: ::std::os::raw::c_ulonglong,
+    pub tag: ::std::os::raw::c_ulonglong,
 }
 #[test]
 fn bindgen_test_layout_Provenance() {
@@ -21,23 +21,23 @@ fn bindgen_test_layout_Provenance() {
         concat!("Alignment of ", stringify!(Provenance))
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).borrow_tag) as usize - ptr as usize },
+        unsafe { ::std::ptr::addr_of!((*ptr).alloc_id) as usize - ptr as usize },
         0usize,
         concat!(
             "Offset of field: ",
             stringify!(Provenance),
             "::",
-            stringify!(borrow_tag)
+            stringify!(alloc_id)
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).alloc_id) as usize - ptr as usize },
+        unsafe { ::std::ptr::addr_of!((*ptr).tag) as usize - ptr as usize },
         8usize,
         concat!(
             "Offset of field: ",
             stringify!(Provenance),
             "::",
-            stringify!(alloc_id)
+            stringify!(tag)
         )
     );
 }
