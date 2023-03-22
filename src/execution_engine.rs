@@ -59,6 +59,7 @@ extern "C" {
         IsSigned: LLVMBool,
     ) -> LLVMGenericValueRef;
     pub fn LLVMCreateGenericValueOfPointer(P: *mut ::libc::c_void) -> LLVMGenericValueRef;
+    pub fn LLVMCreateGenericValueOfPointerWithProvenance(P: *mut ::libc::c_void, prov: Provenance) -> LLVMGenericValueRef;
     pub fn LLVMCreateGenericValueOfFloat(
         Ty: LLVMTypeRef,
         N: ::libc::c_double,
