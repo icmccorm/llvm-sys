@@ -41,5 +41,6 @@ fn bindgen_test_layout_Provenance() {
         )
     );
 }
+pub type Offset = ::std::os::raw::c_ulonglong;
 pub type MiriMemoryHook = ::std::option::Option<unsafe extern "C" fn(p: Provenance)>;
 pub type MiriStackHook = ::std::option::Option<unsafe extern "C" fn()>;
