@@ -2,30 +2,31 @@
 
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
-pub struct Provenance {
+pub struct PointerMetadata {
     pub alloc_id: ::std::os::raw::c_ulonglong,
     pub tag: ::std::os::raw::c_ulonglong,
+    pub offset: ::std::os::raw::c_ulonglong,
 }
 #[test]
-fn bindgen_test_layout_Provenance() {
-    const UNINIT: ::std::mem::MaybeUninit<Provenance> = ::std::mem::MaybeUninit::uninit();
+fn bindgen_test_layout_PointerMetadata() {
+    const UNINIT: ::std::mem::MaybeUninit<PointerMetadata> = ::std::mem::MaybeUninit::uninit();
     let ptr = UNINIT.as_ptr();
     assert_eq!(
-        ::std::mem::size_of::<Provenance>(),
-        16usize,
-        concat!("Size of: ", stringify!(Provenance))
+        ::std::mem::size_of::<PointerMetadata>(),
+        24usize,
+        concat!("Size of: ", stringify!(PointerMetadata))
     );
     assert_eq!(
-        ::std::mem::align_of::<Provenance>(),
+        ::std::mem::align_of::<PointerMetadata>(),
         8usize,
-        concat!("Alignment of ", stringify!(Provenance))
+        concat!("Alignment of ", stringify!(PointerMetadata))
     );
     assert_eq!(
         unsafe { ::std::ptr::addr_of!((*ptr).alloc_id) as usize - ptr as usize },
         0usize,
         concat!(
             "Offset of field: ",
-            stringify!(Provenance),
+            stringify!(PointerMetadata),
             "::",
             stringify!(alloc_id)
         )
@@ -35,12 +36,21 @@ fn bindgen_test_layout_Provenance() {
         8usize,
         concat!(
             "Offset of field: ",
-            stringify!(Provenance),
+            stringify!(PointerMetadata),
             "::",
             stringify!(tag)
         )
     );
+    assert_eq!(
+        unsafe { ::std::ptr::addr_of!((*ptr).offset) as usize - ptr as usize },
+        16usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(PointerMetadata),
+            "::",
+            stringify!(offset)
+        )
+    );
 }
-pub type Offset = ::std::os::raw::c_ulonglong;
-pub type MiriMemoryHook = ::std::option::Option<unsafe extern "C" fn(p: Provenance)>;
+pub type MiriMemoryHook = ::std::option::Option<unsafe extern "C" fn(p: PointerMetadata)>;
 pub type MiriStackHook = ::std::option::Option<unsafe extern "C" fn()>;
