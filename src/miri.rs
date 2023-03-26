@@ -24,33 +24,57 @@ fn bindgen_test_layout_PointerMetadata() {
     assert_eq!(
         unsafe { ::std::ptr::addr_of!((*ptr).alloc_id) as usize - ptr as usize },
         0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(PointerMetadata),
-            "::",
-            stringify!(alloc_id)
-        )
+        concat!("Offset of field: ", stringify!(PointerMetadata), "::", stringify!(alloc_id))
     );
     assert_eq!(
         unsafe { ::std::ptr::addr_of!((*ptr).tag) as usize - ptr as usize },
         8usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(PointerMetadata),
-            "::",
-            stringify!(tag)
-        )
+        concat!("Offset of field: ", stringify!(PointerMetadata), "::", stringify!(tag))
     );
     assert_eq!(
         unsafe { ::std::ptr::addr_of!((*ptr).offset) as usize - ptr as usize },
         16usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(PointerMetadata),
-            "::",
-            stringify!(offset)
-        )
+        concat!("Offset of field: ", stringify!(PointerMetadata), "::", stringify!(offset))
     );
 }
-pub type MiriMemoryHook = ::std::option::Option<unsafe extern "C" fn(p: PointerMetadata)>;
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+#[allow(non_snake_case)]
+pub struct TrackedPointer {
+    pub Pointer: *mut ::std::os::raw::c_void,
+    pub Metadata: PointerMetadata,
+}
+#[test]
+fn bindgen_test_layout_TrackedPointer() {
+    const UNINIT: ::std::mem::MaybeUninit<TrackedPointer> = ::std::mem::MaybeUninit::uninit();
+    let ptr = UNINIT.as_ptr();
+    assert_eq!(
+        ::std::mem::size_of::<TrackedPointer>(),
+        32usize,
+        concat!("Size of: ", stringify!(TrackedPointer))
+    );
+    assert_eq!(
+        ::std::mem::align_of::<TrackedPointer>(),
+        8usize,
+        concat!("Alignment of ", stringify!(TrackedPointer))
+    );
+    assert_eq!(
+        unsafe { ::std::ptr::addr_of!((*ptr).Pointer) as usize - ptr as usize },
+        0usize,
+        concat!("Offset of field: ", stringify!(TrackedPointer), "::", stringify!(Pointer))
+    );
+    assert_eq!(
+        unsafe { ::std::ptr::addr_of!((*ptr).Metadata) as usize - ptr as usize },
+        8usize,
+        concat!("Offset of field: ", stringify!(TrackedPointer), "::", stringify!(Metadata))
+    );
+}
+pub type MiriAllocationHook = ::std::option::Option<
+    unsafe extern "C" fn(arg1: ::std::os::raw::c_ulonglong) -> TrackedPointer,
+>;
+pub type MiriReallocationHook = ::std::option::Option<
+    unsafe extern "C" fn(arg1: TrackedPointer, arg2: ::std::os::raw::c_ulonglong) -> TrackedPointer,
+>;
+pub type MiriFreeHook = ::std::option::Option<unsafe extern "C" fn(arg1: TrackedPointer)>;
+pub type MiriStackedBorrowsHook = ::std::option::Option<unsafe extern "C" fn(p: PointerMetadata)>;
 pub type MiriStackHook = ::std::option::Option<unsafe extern "C" fn()>;

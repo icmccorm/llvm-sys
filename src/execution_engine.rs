@@ -100,11 +100,11 @@ extern "C" {
     );
     pub fn LLVMExecutionEngineSetMiriReadHook(
         EE: LLVMExecutionEngineRef, 
-        IncomingReadHook: MiriMemoryHook
+        IncomingReadHook: MiriStackedBorrowsHook
     );
     pub fn LLVMExecutionEngineSetMiriWriteHook(
         EE: LLVMExecutionEngineRef, 
-        IncomingWriteHook: MiriMemoryHook
+        IncomingWriteHook: MiriStackedBorrowsHook
     );      
     pub fn LLVMExecutionEngineSetMiriCallHook(
         EE: LLVMExecutionEngineRef, 
@@ -114,6 +114,23 @@ extern "C" {
         EE: LLVMExecutionEngineRef, 
         IncomingWriteHook: MiriStackHook
     );
+    pub fn LLVMExecutionEngineSetMiriMalloc(
+        EE: LLVMExecutionEngineRef, 
+        IncomingMalloc: MiriAllocationHook
+    );
+    pub fn LLVMExecutionEngineSetMiriCalloc(
+        EE: LLVMExecutionEngineRef, 
+        IncomingCalloc: MiriAllocationHook
+    );
+    pub fn LLVMExecutionEngineSetMiriRealloc(
+        EE: LLVMExecutionEngineRef, 
+        IncomingRealloc: MiriReallocationHook
+    );
+    pub fn LLVMExecutionEngineSetMiriFree(
+        EE: LLVMExecutionEngineRef, 
+        IncomingFree: MiriFreeHook
+    );
+
     /// Create an MCJIT execution engine for a module, with the given options.
     ///
     /// It is
