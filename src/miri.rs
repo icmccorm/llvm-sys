@@ -46,7 +46,7 @@ pub struct TrackedPointer {
 impl Default for TrackedPointer {
     fn default() -> Self {
         TrackedPointer {
-            Pointer: std::ptr::null_mut() as *mut c_void,
+            Pointer: std::ptr::null_mut() as *mut ::std::os::raw::c_void,
             Metadata: PointerMetadata::default(),
         }
     }
