@@ -39,7 +39,6 @@ fn bindgen_test_layout_PointerMetadata() {
 }
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
-#[allow(non_snake_case)]
 pub struct TrackedPointer {
     pub Pointer: *mut ::std::os::raw::c_void,
     pub Metadata: PointerMetadata,
@@ -70,11 +69,21 @@ fn bindgen_test_layout_TrackedPointer() {
     );
 }
 pub type MiriAllocationHook = ::std::option::Option<
-    unsafe extern "C" fn(arg1: ::std::os::raw::c_ulonglong) -> TrackedPointer,
+    unsafe extern "C" fn(
+        arg1: *mut ::std::os::raw::c_void,
+        arg2: ::std::os::raw::c_ulonglong,
+    ) -> TrackedPointer,
 >;
 pub type MiriReallocationHook = ::std::option::Option<
-    unsafe extern "C" fn(arg1: TrackedPointer, arg2: ::std::os::raw::c_ulonglong) -> TrackedPointer,
+    unsafe extern "C" fn(
+        arg1: *mut ::std::os::raw::c_void,
+        arg2: TrackedPointer,
+        arg3: ::std::os::raw::c_ulonglong,
+    ) -> TrackedPointer,
 >;
-pub type MiriFreeHook = ::std::option::Option<unsafe extern "C" fn(arg1: TrackedPointer)>;
-pub type MiriStackedBorrowsHook = ::std::option::Option<unsafe extern "C" fn(p: PointerMetadata)>;
-pub type MiriStackHook = ::std::option::Option<unsafe extern "C" fn()>;
+pub type MiriFreeHook = ::std::option::Option<
+    unsafe extern "C" fn(arg1: *mut ::std::os::raw::c_void, arg2: TrackedPointer),
+>;
+pub type MiriStackedBorrowsHook = ::std::option::Option<
+    unsafe extern "C" fn(arg1: *mut ::std::os::raw::c_void, p: PointerMetadata),
+>;

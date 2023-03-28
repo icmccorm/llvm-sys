@@ -98,6 +98,12 @@ extern "C" {
         Options: *mut LLVMMCJITCompilerOptions,
         SizeOfOptions: ::libc::size_t,
     );
+
+    // hooks into Miri
+    pub fn LLVMExecutionEngineSetMiriInterpCxWrapper(
+        EE: LLVMExecutionEngineRef, 
+        MiriWrapper: *mut ::std::os::raw::c_void
+    );
     pub fn LLVMExecutionEngineSetMiriReadHook(
         EE: LLVMExecutionEngineRef, 
         IncomingReadHook: MiriStackedBorrowsHook
@@ -106,14 +112,6 @@ extern "C" {
         EE: LLVMExecutionEngineRef, 
         IncomingWriteHook: MiriStackedBorrowsHook
     );      
-    pub fn LLVMExecutionEngineSetMiriCallHook(
-        EE: LLVMExecutionEngineRef, 
-        IncomingWriteHook: MiriStackHook
-    );  
-    pub fn LLVMExecutionEngineSetMiriReturnHook(
-        EE: LLVMExecutionEngineRef, 
-        IncomingWriteHook: MiriStackHook
-    );
     pub fn LLVMExecutionEngineSetMiriMalloc(
         EE: LLVMExecutionEngineRef, 
         IncomingMalloc: MiriAllocationHook
