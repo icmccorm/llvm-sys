@@ -52,6 +52,12 @@ impl Default for TrackedPointer {
     }
 }
 
+impl TrackedPointer {
+    pub fn from_parts(p: *mut ::std::os::raw::c_void, m: PointerMetadata) -> Self {
+        TrackedPointer { Pointer: p, Metadata: m }
+    }
+}
+
 #[test]
 fn bindgen_test_layout_TrackedPointer() {
     const UNINIT: ::std::mem::MaybeUninit<TrackedPointer> = ::std::mem::MaybeUninit::uninit();
