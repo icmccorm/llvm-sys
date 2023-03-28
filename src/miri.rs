@@ -68,22 +68,24 @@ fn bindgen_test_layout_TrackedPointer() {
         concat!("Offset of field: ", stringify!(TrackedPointer), "::", stringify!(Metadata))
     );
 }
+
+pub type MiriInterpCxOpaque = ::std::os::raw::c_void;
+
 pub type MiriAllocationHook = ::std::option::Option<
     unsafe extern "C" fn(
-        arg1: *mut ::std::os::raw::c_void,
+        arg1: *mut MiriInterpCxOpaque,
         arg2: ::std::os::raw::c_ulonglong,
     ) -> TrackedPointer,
 >;
 pub type MiriReallocationHook = ::std::option::Option<
     unsafe extern "C" fn(
-        arg1: *mut ::std::os::raw::c_void,
+        arg1: *mut MiriInterpCxOpaque,
         arg2: TrackedPointer,
         arg3: ::std::os::raw::c_ulonglong,
     ) -> TrackedPointer,
 >;
 pub type MiriFreeHook = ::std::option::Option<
-    unsafe extern "C" fn(arg1: *mut ::std::os::raw::c_void, arg2: TrackedPointer),
+    unsafe extern "C" fn(arg1: *mut MiriInterpCxOpaque, arg2: TrackedPointer),
 >;
-pub type MiriStackedBorrowsHook = ::std::option::Option<
-    unsafe extern "C" fn(arg1: *mut ::std::os::raw::c_void, p: PointerMetadata),
->;
+pub type MiriStackedBorrowsHook =
+    ::std::option::Option<unsafe extern "C" fn(arg1: *mut MiriInterpCxOpaque, p: PointerMetadata)>;
