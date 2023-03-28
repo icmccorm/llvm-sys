@@ -38,7 +38,7 @@ fn bindgen_test_layout_PointerMetadata() {
     );
 }
 #[repr(C)]
-#[derive(Debug, Copy, Clone, Default)]
+#[derive(Debug, Copy, Clone)]
 pub struct TrackedPointer {
     pub Pointer: *mut ::std::os::raw::c_void,
     pub Metadata: PointerMetadata,
