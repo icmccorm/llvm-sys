@@ -1,9 +1,9 @@
 //! Runtime code generation and execution.
 
+use super::miri::*;
 use super::prelude::*;
 use super::target::LLVMTargetDataRef;
 use super::target_machine::{LLVMCodeModel, LLVMTargetMachineRef};
-use super::miri::*;
 
 #[derive(Debug)]
 pub enum LLVMOpaqueGenericValue {}
@@ -60,7 +60,10 @@ extern "C" {
     ) -> LLVMGenericValueRef;
     pub fn LLVMCreateGenericValueOfPointer(P: *mut ::libc::c_void) -> LLVMGenericValueRef;
     pub fn LLVMReadPointerMetadataFromGenericValue(GenVal: LLVMGenericValueRef) -> PointerMetadata;
-    pub fn LLVMCreateGenericValueOfPointerWithMetadata(P: *mut ::libc::c_void, meta: PointerMetadata) -> LLVMGenericValueRef;
+    pub fn LLVMCreateGenericValueOfPointerWithMetadata(
+        P: *mut ::libc::c_void,
+        meta: PointerMetadata,
+    ) -> LLVMGenericValueRef;
     pub fn LLVMCreateGenericValueOfFloat(
         Ty: LLVMTypeRef,
         N: ::libc::c_double,
@@ -101,32 +104,20 @@ extern "C" {
 
     // hooks into Miri
     pub fn LLVMExecutionEngineSetMiriInterpCxWrapper(
-        EE: LLVMExecutionEngineRef, 
-        MiriWrapper: *mut ::std::os::raw::c_void
+        EE: LLVMExecutionEngineRef,
+        MiriWrapper: *mut ::std::os::raw::c_void,
     );
-    pub fn LLVMExecutionEngineSetMiriReadHook(
-        EE: LLVMExecutionEngineRef, 
-        IncomingReadHook: MiriStackedBorrowsHook
+    pub fn LLVMExecutionEngineSetMiriCallbackHook(
+        EE: LLVMExecutionEngineRef,
+        IncomingCallbackHook: MiriCallbackHook,
     );
-    pub fn LLVMExecutionEngineSetMiriWriteHook(
-        EE: LLVMExecutionEngineRef, 
-        IncomingWriteHook: MiriStackedBorrowsHook
-    );      
-    pub fn LLVMExecutionEngineSetMiriMalloc(
-        EE: LLVMExecutionEngineRef, 
-        IncomingMalloc: MiriAllocationHook
+    pub fn LLVMExecutionEngineSetMiriLoadHook(
+        EE: LLVMExecutionEngineRef,
+        IncomingLoadHook: MiriLoadStoreHook,
     );
-    pub fn LLVMExecutionEngineSetMiriCalloc(
-        EE: LLVMExecutionEngineRef, 
-        IncomingCalloc: MiriAllocationHook
-    );
-    pub fn LLVMExecutionEngineSetMiriRealloc(
-        EE: LLVMExecutionEngineRef, 
-        IncomingRealloc: MiriReallocationHook
-    );
-    pub fn LLVMExecutionEngineSetMiriFree(
-        EE: LLVMExecutionEngineRef, 
-        IncomingFree: MiriFreeHook
+    pub fn LLVMExecutionEngineSetMiriStoreHook(
+        EE: LLVMExecutionEngineRef,
+        IncomingStoreHook: MiriLoadStoreHook,
     );
 
     /// Create an MCJIT execution engine for a module, with the given options.
