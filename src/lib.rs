@@ -112,13 +112,13 @@ pub mod initialization;
 pub mod ir_reader;
 pub mod linker;
 pub mod lto;
+pub mod miri;
 pub mod object;
 pub mod orc2;
 pub mod remarks;
 pub mod support;
 pub mod target;
 pub mod target_machine;
-pub mod miri;
 
 pub mod transforms {
     pub mod aggressive_instcombine;

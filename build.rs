@@ -94,10 +94,7 @@ fn locate_llvm_config() -> Option<PathBuf> {
             Ok(version) => {
                 // Version mismatch. Will try further searches, but warn that
                 // we're not using the system one.
-                println!(
-                    "Found LLVM version {} on PATH, but need {}.",
-                    version, *CRATE_VERSION
-                );
+                println!("Found LLVM version {} on PATH, but need {}.", version, *CRATE_VERSION);
             }
             Err(ref e) if e.kind() == ErrorKind::NotFound => {
                 // Looks like we failed to execute any llvm-config. Keep
@@ -117,10 +114,7 @@ fn llvm_config_binary_names() -> std::vec::IntoIter<String> {
         "llvm-config".into(),
         format!("llvm-config-{}", CRATE_VERSION.major),
         format!("llvm{}-config", CRATE_VERSION.major),
-        format!(
-            "llvm-config-{}.{}",
-            CRATE_VERSION.major, CRATE_VERSION.minor
-        ),
+        format!("llvm-config-{}.{}", CRATE_VERSION.major, CRATE_VERSION.minor),
         format!("llvm-config{}{}", CRATE_VERSION.major, CRATE_VERSION.minor),
     ];
 
@@ -143,10 +137,7 @@ fn is_blocklisted_llvm(llvm_version: &Version) -> Option<&'static str> {
 
     if let Some(x) = env::var_os(&*ENV_IGNORE_BLOCKLIST) {
         if &x == "YES" {
-            println!(
-                "cargo:warning=Ignoring blocklist entry for LLVM {}",
-                llvm_version
-            );
+            println!("cargo:warning=Ignoring blocklist entry for LLVM {}", llvm_version);
             return None;
         } else {
             println!(
@@ -176,10 +167,7 @@ fn is_blocklisted_llvm(llvm_version: &Version) -> Option<&'static str> {
 /// the crate.
 fn is_compatible_llvm(llvm_version: &Version) -> bool {
     if let Some(reason) = is_blocklisted_llvm(llvm_version) {
-        println!(
-            "Found LLVM {}, which is blocklisted: {}",
-            llvm_version, reason
-        );
+        println!("Found LLVM {}, which is blocklisted: {}", llvm_version, reason);
         return false;
     }
 
@@ -214,10 +202,7 @@ fn llvm_config_ex<S: AsRef<OsStr>>(binary: S, arg: &str) -> io::Result<String> {
         .output()
         .and_then(|output| {
             if output.stdout.is_empty() {
-                Err(io::Error::new(
-                    io::ErrorKind::NotFound,
-                    "llvm-config returned empty output",
-                ))
+                Err(io::Error::new(io::ErrorKind::NotFound, "llvm-config returned empty output"))
             } else {
                 Ok(String::from_utf8(output.stdout)
                     .expect("Output from llvm-config was not valid UTF-8"))
@@ -285,10 +270,7 @@ fn get_system_libraries() -> Vec<String> {
                 if maybe_lib.is_file() {
                     // Library on disk, likely an absolute path to a .so. We'll add its location to
                     // the library search path and specify the file as a link target.
-                    println!(
-                        "cargo:rustc-link-search={}",
-                        maybe_lib.parent().unwrap().display()
-                    );
+                    println!("cargo:rustc-link-search={}", maybe_lib.parent().unwrap().display());
 
                     // Expect a file named something like libfoo.so, or with a version libfoo.so.1.
                     // Trim everything after and including the last .so and remove the leading 'lib'
@@ -304,10 +286,7 @@ fn get_system_libraries() -> Vec<String> {
 
                     stem.trim_start_matches("lib")
                 } else {
-                    panic!(
-                        "Unable to parse result of llvm-config --system-libs: was {:?}",
-                        flag
-                    )
+                    panic!("Unable to parse result of llvm-config --system-libs: was {:?}", flag)
                 }
             }
             .to_owned()
@@ -317,11 +296,7 @@ fn get_system_libraries() -> Vec<String> {
 }
 
 fn target_dylib_extension() -> &'static str {
-    if target_os_is("macos") {
-        ".dylib"
-    } else {
-        ".so"
-    }
+    if target_os_is("macos") { ".dylib" } else { ".so" }
 }
 
 /// Get the library that must be linked for C++, if any.
@@ -430,9 +405,7 @@ fn main() {
     // Build the extra wrapper functions.
     if !cfg!(feature = "disable-alltargets-init") {
         std::env::set_var("CFLAGS", get_llvm_cflags());
-        cc::Build::new()
-            .file("wrappers/target.c")
-            .compile("targetwrappers");
+        cc::Build::new().file("wrappers/target.c").compile("targetwrappers");
     }
 
     if cfg!(feature = "no-llvm-linking") {
@@ -442,10 +415,7 @@ fn main() {
     let libdir = llvm_config("--libdir");
 
     // Export information to other crates
-    println!(
-        "cargo:config_path={}",
-        LLVM_CONFIG_PATH.clone().unwrap().display()
-    ); // will be DEP_LLVM_CONFIG_PATH
+    println!("cargo:config_path={}", LLVM_CONFIG_PATH.clone().unwrap().display()); // will be DEP_LLVM_CONFIG_PATH
     println!("cargo:libdir={}", libdir); // DEP_LLVM_LIBDIR
 
     // Link LLVM libraries

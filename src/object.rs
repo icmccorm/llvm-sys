@@ -132,31 +132,19 @@ extern "C" {
     #[deprecated(since = "LLVM 9.0", note = "Use LLVMDisposeBinary instead")]
     pub fn LLVMDisposeObjectFile(ObjectFile: LLVMObjectFileRef);
     #[allow(deprecated)]
-    #[deprecated(
-        since = "LLVM 9.0",
-        note = "Use LLVMObjectFileCopySectionIterator instead"
-    )]
+    #[deprecated(since = "LLVM 9.0", note = "Use LLVMObjectFileCopySectionIterator instead")]
     pub fn LLVMGetSections(ObjectFile: LLVMObjectFileRef) -> LLVMSectionIteratorRef;
     #[allow(deprecated)]
-    #[deprecated(
-        since = "LLVM 9.0",
-        note = "Use LLVMObjectFileIsSectionIteratorAtEnd instead"
-    )]
+    #[deprecated(since = "LLVM 9.0", note = "Use LLVMObjectFileIsSectionIteratorAtEnd instead")]
     pub fn LLVMIsSectionIteratorAtEnd(
         ObjectFile: LLVMObjectFileRef,
         SI: LLVMSectionIteratorRef,
     ) -> LLVMBool;
     #[allow(deprecated)]
-    #[deprecated(
-        since = "LLVM 9.0",
-        note = "Use LLVMObjectFileCopySymbolIterator instead"
-    )]
+    #[deprecated(since = "LLVM 9.0", note = "Use LLVMObjectFileCopySymbolIterator instead")]
     pub fn LLVMGetSymbols(ObjectFile: LLVMObjectFileRef) -> LLVMSymbolIteratorRef;
     #[allow(deprecated)]
-    #[deprecated(
-        since = "LLVM 9.0",
-        note = "Use LLVMObjectFileIsSymbolIteratorAtEnd instead"
-    )]
+    #[deprecated(since = "LLVM 9.0", note = "Use LLVMObjectFileIsSymbolIteratorAtEnd instead")]
     pub fn LLVMIsSymbolIteratorAtEnd(
         ObjectFile: LLVMObjectFileRef,
         SI: LLVMSymbolIteratorRef,

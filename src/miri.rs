@@ -87,6 +87,13 @@ fn bindgen_test_layout_TrackedPointer() {
 }
 
 pub type MiriInterpCxOpaque = ::std::os::raw::c_void;
+
+pub type MiriAllocationHook = ::std::option::Option<
+    unsafe extern "C" fn(arg1: *mut MiriInterpCxOpaque, arg2: ::libc::size_t) -> TrackedPointer,
+>;
+pub type MiriFreeHook = ::std::option::Option<
+    unsafe extern "C" fn(arg1: *mut MiriInterpCxOpaque, arg2: TrackedPointer),
+>;
 pub type MiriLoadStoreHook = ::std::option::Option<
     unsafe extern "C" fn(
         arg1: *mut MiriInterpCxOpaque,

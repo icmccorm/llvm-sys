@@ -434,10 +434,7 @@ extern "C" {
         Ctx: *mut ::libc::c_void,
         Dispose: LLVMOrcDisposeCAPIDefinitionGeneratorFunction,
     ) -> LLVMOrcDefinitionGeneratorRef;
-    pub fn LLVMOrcLookupStateContinueLookup(
-        S: LLVMOrcLookupStateRef,
-        Err: LLVMErrorRef,
-    );
+    pub fn LLVMOrcLookupStateContinueLookup(S: LLVMOrcLookupStateRef, Err: LLVMErrorRef);
     pub fn LLVMOrcCreateDynamicLibrarySearchGeneratorForProcess(
         Result: *mut LLVMOrcDefinitionGeneratorRef,
         GlobalPrefix: ::libc::c_char,
@@ -459,7 +456,7 @@ extern "C" {
     ) -> LLVMErrorRef;
     pub fn LLVMOrcCreateNewThreadSafeContext() -> LLVMOrcThreadSafeContextRef;
     pub fn LLVMOrcThreadSafeContextGetContext(TSCtx: LLVMOrcThreadSafeContextRef)
-        -> LLVMContextRef;
+    -> LLVMContextRef;
     pub fn LLVMOrcDisposeThreadSafeContext(TSCtx: LLVMOrcThreadSafeContextRef);
     pub fn LLVMOrcCreateNewThreadSafeModule(
         M: LLVMModuleRef,

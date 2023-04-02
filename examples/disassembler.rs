@@ -22,13 +22,7 @@ fn main() -> IoResult<()> {
         LLVM_InitializeAllTargetInfos();
         LLVM_InitializeAllTargetMCs();
         LLVM_InitializeAllDisassemblers();
-        LLVMCreateDisasm(
-            "x86_64\0".as_ptr() as *const i8,
-            ptr::null_mut(),
-            0,
-            None,
-            None,
-        )
+        LLVMCreateDisasm("x86_64\0".as_ptr() as *const i8, ptr::null_mut(), 0, None, None)
     };
     if disasm.is_null() {
         eprintln!("Failed to create disassembler");

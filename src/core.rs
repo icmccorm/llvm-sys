@@ -380,7 +380,8 @@ extern "C" {
     /// True if this is an instance of an opaque PointerType.
     pub fn LLVMPointerTypeIsOpaque(Ty: LLVMTypeRef) -> LLVMBool;
     /// Create an opaque pointer type in a context.
-    pub fn LLVMPointerTypeInContext(C: LLVMContextRef, AddressSpace: ::libc::c_uint) -> LLVMTypeRef;
+    pub fn LLVMPointerTypeInContext(C: LLVMContextRef, AddressSpace: ::libc::c_uint)
+    -> LLVMTypeRef;
     pub fn LLVMGetPointerAddressSpace(PointerTy: LLVMTypeRef) -> ::libc::c_uint;
     pub fn LLVMVectorType(ElementType: LLVMTypeRef, ElementCount: ::libc::c_uint) -> LLVMTypeRef;
     /// Create a vector type that contains a defined type and has a scalable
@@ -574,10 +575,7 @@ extern "C" {
     pub fn LLVMConstShl(LHSConstant: LLVMValueRef, RHSConstant: LLVMValueRef) -> LLVMValueRef;
     pub fn LLVMConstLShr(LHSConstant: LLVMValueRef, RHSConstant: LLVMValueRef) -> LLVMValueRef;
     pub fn LLVMConstAShr(LHSConstant: LLVMValueRef, RHSConstant: LLVMValueRef) -> LLVMValueRef;
-    #[deprecated(
-        since = "14.0",
-        note = "Use LLVMConstGEP2 instead to support opaque pointers."
-    )]
+    #[deprecated(since = "14.0", note = "Use LLVMConstGEP2 instead to support opaque pointers.")]
     pub fn LLVMConstGEP(
         ConstantVal: LLVMValueRef,
         ConstantIndices: *mut LLVMValueRef,
@@ -751,10 +749,7 @@ extern "C" {
     /// Set the target value of an alias.
     pub fn LLVMAliasSetAliasee(Alias: LLVMValueRef, Aliasee: LLVMValueRef);
 
-    #[deprecated(
-        since = "14.0",
-        note = "Use LLVMAddAlias2 instead to support opaque pointers."
-    )]
+    #[deprecated(since = "14.0", note = "Use LLVMAddAlias2 instead to support opaque pointers.")]
     pub fn LLVMAddAlias(
         M: LLVMModuleRef,
         Ty: LLVMTypeRef,
@@ -826,7 +821,7 @@ extern "C" {
     pub fn LLVMSetGC(Fn: LLVMValueRef, Name: *const ::libc::c_char);
     pub fn LLVMAddAttributeAtIndex(F: LLVMValueRef, Idx: LLVMAttributeIndex, A: LLVMAttributeRef);
     pub fn LLVMGetAttributeCountAtIndex(F: LLVMValueRef, Idx: LLVMAttributeIndex)
-        -> ::libc::c_uint;
+    -> ::libc::c_uint;
     pub fn LLVMGetAttributesAtIndex(
         F: LLVMValueRef,
         Idx: LLVMAttributeIndex,
@@ -992,7 +987,7 @@ extern "C" {
         Name: *const ::libc::c_char,
     ) -> LLVMBasicBlockRef;
     pub fn LLVMAppendBasicBlock(Fn: LLVMValueRef, Name: *const ::libc::c_char)
-        -> LLVMBasicBlockRef;
+    -> LLVMBasicBlockRef;
     pub fn LLVMInsertBasicBlockInContext(
         C: LLVMContextRef,
         BB: LLVMBasicBlockRef,
@@ -1302,10 +1297,7 @@ extern "C" {
         Addr: LLVMValueRef,
         NumDests: ::libc::c_uint,
     ) -> LLVMValueRef;
-    #[deprecated(
-        since = "14.0",
-        note = "Use LLVMBuildInvoke2 instead to support opaque pointers."
-    )]
+    #[deprecated(since = "14.0", note = "Use LLVMBuildInvoke2 instead to support opaque pointers.")]
     pub fn LLVMBuildInvoke(
         arg1: LLVMBuilderRef,
         Fn: LLVMValueRef,
@@ -1652,10 +1644,7 @@ extern "C" {
         Name: *const ::libc::c_char,
     ) -> LLVMValueRef;
     pub fn LLVMBuildFree(arg1: LLVMBuilderRef, PointerVal: LLVMValueRef) -> LLVMValueRef;
-    #[deprecated(
-        since = "14.0",
-        note = "Use LLVMBuildLoad2 instead to support opaque pointers."
-    )]
+    #[deprecated(since = "14.0", note = "Use LLVMBuildLoad2 instead to support opaque pointers.")]
     pub fn LLVMBuildLoad(
         arg1: LLVMBuilderRef,
         PointerVal: LLVMValueRef,
@@ -1672,10 +1661,7 @@ extern "C" {
         Val: LLVMValueRef,
         Ptr: LLVMValueRef,
     ) -> LLVMValueRef;
-    #[deprecated(
-        since = "14.0",
-        note = "Use LLVMBuildGEP2 instead to support opaque pointers."
-    )]
+    #[deprecated(since = "14.0", note = "Use LLVMBuildGEP2 instead to support opaque pointers.")]
     pub fn LLVMBuildGEP(
         B: LLVMBuilderRef,
         Pointer: LLVMValueRef,
@@ -1904,10 +1890,7 @@ extern "C" {
         Ty: LLVMTypeRef,
         Name: *const ::libc::c_char,
     ) -> LLVMValueRef;
-    #[deprecated(
-        since = "14.0",
-        note = "Use LLVMBuildCall2 instead to support opaque pointers."
-    )]
+    #[deprecated(since = "14.0", note = "Use LLVMBuildCall2 instead to support opaque pointers.")]
     pub fn LLVMBuildCall(
         arg1: LLVMBuilderRef,
         Fn: LLVMValueRef,

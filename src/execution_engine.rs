@@ -78,6 +78,9 @@ extern "C" {
         TyRef: LLVMTypeRef,
         GenVal: LLVMGenericValueRef,
     ) -> ::libc::c_double;
+    pub fn LLVMGenericValueSetDoubleValue(GenVal: LLVMGenericValueRef, DoubleVal: ::libc::c_double);
+    pub fn LLVMGenericValueSetFloatValue(GenVal: LLVMGenericValueRef, FloatVal: ::libc::c_float);
+    pub fn LLVMGenericValueSetIntValue(GenVal: LLVMGenericValueRef, Src: *const u8, LoadBytes: u32);
     pub fn LLVMDisposeGenericValue(GenVal: LLVMGenericValueRef);
 
     // Operations on execution engines
@@ -119,7 +122,14 @@ extern "C" {
         EE: LLVMExecutionEngineRef,
         IncomingStoreHook: MiriLoadStoreHook,
     );
-
+    pub fn LLVMExecutionEngineSetMiriMalloc(
+        EE: LLVMExecutionEngineRef,
+        IncomingMallocHook: MiriAllocationHook,
+    );
+    pub fn LLVMExecutionEngineSetMiriFree(
+        EE: LLVMExecutionEngineRef,
+        IncomingFreeHook: MiriFreeHook,
+    );
     /// Create an MCJIT execution engine for a module, with the given options.
     ///
     /// It is
