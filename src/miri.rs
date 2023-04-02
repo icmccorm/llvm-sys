@@ -100,6 +100,7 @@ pub type MiriLoadStoreHook = ::std::option::Option<
         arg2: LLVMGenericValueRef,
         arg3: TrackedPointer,
         arg4: LLVMTypeRef,
+        arg5: ::libc::size_t
     ),
 >;
 pub type MiriCallbackHook = ::std::option::Option<
