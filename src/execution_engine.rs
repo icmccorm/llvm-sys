@@ -59,11 +59,7 @@ extern "C" {
         IsSigned: LLVMBool,
     ) -> LLVMGenericValueRef;
     pub fn LLVMCreateGenericValueOfPointer(P: *mut ::libc::c_void) -> LLVMGenericValueRef;
-    pub fn LLVMReadPointerMetadataFromGenericValue(GenVal: LLVMGenericValueRef) -> PointerMetadata;
-    pub fn LLVMCreateGenericValueOfPointerWithMetadata(
-        P: *mut ::libc::c_void,
-        meta: PointerMetadata,
-    ) -> LLVMGenericValueRef;
+    pub fn LLVMCreateGenericValueOfMiriPointer(meta: MiriPointer) -> LLVMGenericValueRef;
     pub fn LLVMCreateGenericValueOfFloat(
         Ty: LLVMTypeRef,
         N: ::libc::c_double,
@@ -74,6 +70,7 @@ extern "C" {
         IsSigned: LLVMBool,
     ) -> ::libc::c_ulonglong;
     pub fn LLVMGenericValueToPointer(GenVal: LLVMGenericValueRef) -> *mut ::libc::c_void;
+    pub fn LLVMGenericValueToMiriPointer(GenVal: LLVMGenericValueRef) -> MiriPointer;
     pub fn LLVMGenericValueToFloat(
         TyRef: LLVMTypeRef,
         GenVal: LLVMGenericValueRef,

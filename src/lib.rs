@@ -2,7 +2,7 @@
 //!
 //! Refer to the [LLVM documentation](http://llvm.org/docs/) for more
 //! information.
-
+#![feature(c_unwind)]
 #![allow(non_upper_case_globals)]
 #![allow(non_camel_case_types)]
 
