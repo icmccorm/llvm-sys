@@ -51,7 +51,6 @@ pub type LLVMMemoryManagerDestroyCallback = Option<extern "C" fn(Opaque: *mut ::
 extern "C" {
     pub fn LLVMLinkInMCJIT();
     pub fn LLVMLinkInInterpreter();
-
     // Operations on generic values
     pub fn LLVMCreateGenericValueOfInt(
         Ty: LLVMTypeRef,
@@ -77,9 +76,17 @@ extern "C" {
     ) -> ::libc::c_double;
     pub fn LLVMGenericValueSetDoubleValue(GenVal: LLVMGenericValueRef, DoubleVal: ::libc::c_double);
     pub fn LLVMGenericValueSetFloatValue(GenVal: LLVMGenericValueRef, FloatVal: ::libc::c_float);
-    pub fn LLVMGenericValueSetIntValue(GenVal: LLVMGenericValueRef, Src: *const u8, LoadBytes: u32);
+    pub fn LLVMGenericValueSetIntValue(GenVal: LLVMGenericValueRef, Src: u64, LoadBytes: u32);
+    pub fn LLVMGenericValueSetMiriPointerValue(GenVal: LLVMGenericValueRef, Ptr: MiriPointer);
+    pub fn LLVMGenericValueSetMiriParentPointerValue(
+        GenVal: LLVMGenericValueRef,
+        PointerMetaVal: MiriPointer,
+    );
+    pub fn LLVMGetPointerToAggregateGenericValue(
+        GenValRef: LLVMGenericValueRef,
+    ) -> LLVMGenericValueRef;
+    pub fn LLVMGetAggregateGenericValueLength(GenValRef: LLVMGenericValueRef) -> ::libc::size_t;
     pub fn LLVMDisposeGenericValue(GenVal: LLVMGenericValueRef);
-
     // Operations on execution engines
     pub fn LLVMCreateExecutionEngineForModule(
         OutEE: *mut LLVMExecutionEngineRef,
@@ -106,6 +113,10 @@ extern "C" {
     pub fn LLVMExecutionEngineSetMiriInterpCxWrapper(
         EE: LLVMExecutionEngineRef,
         MiriWrapper: *mut ::std::os::raw::c_void,
+    );
+    pub fn LLVMExecutionEngineSetMiriStackTraceRecorderHook(
+        EE: LLVMExecutionEngineRef ,
+        IncomingStackTraceRecorderHook: MiriStackTraceRecorderHook 
     );
     pub fn LLVMExecutionEngineSetMiriCallbackHook(
         EE: LLVMExecutionEngineRef,
