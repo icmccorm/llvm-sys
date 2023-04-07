@@ -14,11 +14,11 @@ pub struct MiriPointer {
 #[derive(Debug, Copy, Clone)]
 pub struct MiriErrorTrace {
     pub directory: *const ::std::os::raw::c_char,
-    pub directory_len: usize,
+    pub directory_len: ::libc::size_t,
     pub file: *const ::std::os::raw::c_char,
-    pub file_len: usize,
-    pub line: usize,
-    pub column: usize,
+    pub file_len: ::libc::size_t,
+    pub line: u32,
+    pub column: u32,
 }
 
 pub type MiriInterpCxOpaque = ::std::os::raw::c_void;
