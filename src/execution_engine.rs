@@ -115,8 +115,8 @@ extern "C" {
         MiriWrapper: *mut ::std::os::raw::c_void,
     );
     pub fn LLVMExecutionEngineSetMiriStackTraceRecorderHook(
-        EE: LLVMExecutionEngineRef ,
-        IncomingStackTraceRecorderHook: MiriStackTraceRecorderHook 
+        EE: LLVMExecutionEngineRef,
+        IncomingStackTraceRecorderHook: MiriStackTraceRecorderHook,
     );
     pub fn LLVMExecutionEngineSetMiriCallbackHook(
         EE: LLVMExecutionEngineRef,
@@ -137,6 +137,14 @@ extern "C" {
     pub fn LLVMExecutionEngineSetMiriFree(
         EE: LLVMExecutionEngineRef,
         IncomingFreeHook: MiriFreeHook,
+    );
+    pub fn LLVMExecutionEngineSetMiriMemset(
+        EE: LLVMExecutionEngineRef,
+        IncomingMemset: MiriMemset,
+    );
+    pub fn LLVMExecutionEngineSetMiriMemcpy(
+        EE: LLVMExecutionEngineRef,
+        IncomingMemcpy: MiriMemcpy,
     );
     /// Create an MCJIT execution engine for a module, with the given options.
     ///
