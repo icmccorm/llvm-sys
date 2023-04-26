@@ -82,6 +82,11 @@ extern "C" {
         GenVal: LLVMGenericValueRef,
         PointerMetaVal: MiriPointer,
     );
+    pub fn LLVMCreateAggregateGenericValue(NumMembers: u64) -> LLVMGenericValueRef;
+    pub fn LLVMGenericValueAppendAggregate(
+        GenVal: LLVMGenericValueRef,
+        GenValElement: LLVMGenericValueRef,
+    );
     pub fn LLVMGetPointerToAggregateGenericValue(
         GenValRef: LLVMGenericValueRef,
     ) -> LLVMGenericValueRef;
@@ -118,9 +123,13 @@ extern "C" {
         EE: LLVMExecutionEngineRef,
         IncomingStackTraceRecorderHook: MiriStackTraceRecorderHook,
     );
-    pub fn LLVMExecutionEngineSetMiriCallbackHook(
+    pub fn LLVMExecutionEngineSetMiriCallByNameHook(
         EE: LLVMExecutionEngineRef,
-        IncomingCallbackHook: MiriCallbackHook,
+        IncomingCallbackHook: MiriCallByNameHook,
+    );
+    pub fn LLVMExecutionEngineSetMiriCallByPointerHook(
+        EE: LLVMExecutionEngineRef,
+        IncomingCallbackHook: MiriCallByPointerHook,
     );
     pub fn LLVMExecutionEngineSetMiriLoadHook(
         EE: LLVMExecutionEngineRef,
@@ -138,14 +147,8 @@ extern "C" {
         EE: LLVMExecutionEngineRef,
         IncomingFreeHook: MiriFreeHook,
     );
-    pub fn LLVMExecutionEngineSetMiriMemset(
-        EE: LLVMExecutionEngineRef,
-        IncomingMemset: MiriMemset,
-    );
-    pub fn LLVMExecutionEngineSetMiriMemcpy(
-        EE: LLVMExecutionEngineRef,
-        IncomingMemcpy: MiriMemcpy,
-    );
+    pub fn LLVMExecutionEngineSetMiriMemset(EE: LLVMExecutionEngineRef, IncomingMemset: MiriMemset);
+    pub fn LLVMExecutionEngineSetMiriMemcpy(EE: LLVMExecutionEngineRef, IncomingMemcpy: MiriMemcpy);
     /// Create an MCJIT execution engine for a module, with the given options.
     ///
     /// It is

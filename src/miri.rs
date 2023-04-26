@@ -40,7 +40,7 @@ pub type MiriMemcpy = ::std::option::Option<
     unsafe extern "C-unwind" fn(
         arg1: *mut MiriInterpCxOpaque,
         arg2: MiriPointer,
-        arg3: *const ::std::os::raw::c_uchar,
+        arg3: *const u8,
         arg4: u64,
     ) -> bool,
 >;
@@ -61,17 +61,28 @@ pub type MiriLoadStoreHook = ::std::option::Option<
         arg6: u64,
     ) -> bool,
 >;
-pub type MiriCallbackHook = ::std::option::Option<
+pub type MiriCallByNameHook = ::std::option::Option<
     unsafe extern "C-unwind" fn(
         ctx_raw: *mut MiriInterpCxOpaque,
         ret_ref: LLVMGenericValueRef,
         args_ref: LLVMGenericValueRef,
         num_args: u64,
-        name: *const ::libc::c_uchar,
+        name: *const ::std::os::raw::c_char,
         name_length: u64,
         tref: LLVMTypeRef,
     ) -> bool,
 >;
+pub type MiriCallByPointerHook = ::std::option::Option<
+    unsafe extern "C-unwind" fn(
+        ctx_raw: *mut MiriInterpCxOpaque,
+        fn_ref: MiriPointer,
+        ret_ref: LLVMGenericValueRef,
+        args_ref: LLVMGenericValueRef,
+        num_args: u64,
+        tref: LLVMTypeRef,
+    ) -> bool,
+>;
+
 pub type MiriStackTraceRecorderHook = ::std::option::Option<
     unsafe extern "C-unwind" fn(
         ctx_raw: *mut MiriInterpCxOpaque,
