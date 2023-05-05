@@ -74,6 +74,12 @@ extern "C" {
         TyRef: LLVMTypeRef,
         GenVal: LLVMGenericValueRef,
     ) -> ::libc::c_double;
+    pub fn LLVMGenericValueToFloatSingle(
+        GenVal: LLVMGenericValueRef,
+    ) -> ::libc::c_float;
+    pub fn LLVMGenericValueToFloatDouble(
+        GenVal: LLVMGenericValueRef,
+    ) -> ::libc::c_double;
     pub fn LLVMGenericValueSetDoubleValue(GenVal: LLVMGenericValueRef, DoubleVal: ::libc::c_double);
     pub fn LLVMGenericValueSetFloatValue(GenVal: LLVMGenericValueRef, FloatVal: ::libc::c_float);
     pub fn LLVMGenericValueSetIntValue(GenVal: LLVMGenericValueRef, Src: u64, LoadBytes: u32);
@@ -149,6 +155,17 @@ extern "C" {
     );
     pub fn LLVMExecutionEngineSetMiriMemset(EE: LLVMExecutionEngineRef, IncomingMemset: MiriMemset);
     pub fn LLVMExecutionEngineSetMiriMemcpy(EE: LLVMExecutionEngineRef, IncomingMemcpy: MiriMemcpy);
+
+    pub fn LLVMExecutionEngineSetMiriIntToPtr(
+        EE: LLVMExecutionEngineRef,
+        IncomingIntToPtr: MiriIntToPtr,
+    );
+
+    pub fn LLVMExecutionEngineSetMiriPtrToInt(
+        EE: LLVMExecutionEngineRef,
+        IncomingPtrToInt: MiriPtrToInt,
+    );
+
     /// Create an MCJIT execution engine for a module, with the given options.
     ///
     /// It is

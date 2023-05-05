@@ -4,14 +4,14 @@ use crate::prelude::LLVMTypeRef;
 #[repr(C)]
 #[derive(Debug, Copy, Clone, Default)]
 pub struct MiriProvenance {
-    pub alloc_id: ::std::os::raw::c_ulonglong,
-    pub tag: ::std::os::raw::c_ulonglong,
+    pub alloc_id: u64,
+    pub tag: u64,
 }
 
 #[repr(C)]
 #[derive(Debug, Copy, Clone, Default)]
 pub struct MiriPointer {
-    pub addr: ::std::os::raw::c_ulonglong,
+    pub addr: u64,
     pub prov: MiriProvenance,
 }
 #[repr(C)]
@@ -34,6 +34,14 @@ pub type MiriMemset = ::std::option::Option<
         arg3: u8,
         arg4: u64,
     ) -> bool,
+>;
+
+pub type MiriIntToPtr = ::std::option::Option<
+    unsafe extern "C-unwind" fn(arg1: *mut MiriInterpCxOpaque, arg2: u64) -> MiriPointer,
+>;
+
+pub type MiriPtrToInt = ::std::option::Option<
+    unsafe extern "C-unwind" fn(arg1: *mut MiriInterpCxOpaque, arg2: MiriPointer) -> u64,
 >;
 
 pub type MiriMemcpy = ::std::option::Option<
