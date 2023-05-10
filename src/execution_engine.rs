@@ -74,12 +74,8 @@ extern "C" {
         TyRef: LLVMTypeRef,
         GenVal: LLVMGenericValueRef,
     ) -> ::libc::c_double;
-    pub fn LLVMGenericValueToFloatSingle(
-        GenVal: LLVMGenericValueRef,
-    ) -> ::libc::c_float;
-    pub fn LLVMGenericValueToFloatDouble(
-        GenVal: LLVMGenericValueRef,
-    ) -> ::libc::c_double;
+    pub fn LLVMGenericValueToFloatSingle(GenVal: LLVMGenericValueRef) -> ::libc::c_float;
+    pub fn LLVMGenericValueToFloatDouble(GenVal: LLVMGenericValueRef) -> ::libc::c_double;
     pub fn LLVMGenericValueSetDoubleValue(GenVal: LLVMGenericValueRef, DoubleVal: ::libc::c_double);
     pub fn LLVMGenericValueSetFloatValue(GenVal: LLVMGenericValueRef, FloatVal: ::libc::c_float);
     pub fn LLVMGenericValueSetIntValue(GenVal: LLVMGenericValueRef, Src: u64, LoadBytes: u32);
@@ -93,6 +89,7 @@ extern "C" {
         GenVal: LLVMGenericValueRef,
         GenValElement: LLVMGenericValueRef,
     );
+    pub fn LLVMGenericValueEnsureCapacity(GenVal: LLVMGenericValueRef, Size: u64);
     pub fn LLVMGetPointerToAggregateGenericValue(
         GenValRef: LLVMGenericValueRef,
     ) -> LLVMGenericValueRef;
