@@ -85,13 +85,14 @@ extern "C" {
         PointerMetaVal: MiriPointer,
     );
     pub fn LLVMCreateAggregateGenericValue(NumMembers: u64) -> LLVMGenericValueRef;
-    pub fn LLVMGenericValueAppendAggregate(
+    pub fn LLVMGenericValueAppendAggregateValue(
         GenVal: LLVMGenericValueRef,
         GenValElement: LLVMGenericValueRef,
     );
     pub fn LLVMGenericValueEnsureCapacity(GenVal: LLVMGenericValueRef, Size: u64);
     pub fn LLVMGetPointerToAggregateGenericValue(
         GenValRef: LLVMGenericValueRef,
+        Index: u64,
     ) -> LLVMGenericValueRef;
     pub fn LLVMGetAggregateGenericValueLength(GenValRef: LLVMGenericValueRef) -> ::libc::size_t;
     pub fn LLVMDisposeGenericValue(GenVal: LLVMGenericValueRef);
