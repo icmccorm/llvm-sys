@@ -6,6 +6,9 @@ use super::target::LLVMTargetDataRef;
 use super::target_machine::{LLVMCodeModel, LLVMTargetMachineRef};
 
 #[derive(Debug)]
+pub enum LLVMOpaqueGenericValueArrayRef {}
+
+#[derive(Debug)]
 pub enum LLVMOpaqueGenericValue {}
 
 #[derive(Debug)]
@@ -14,6 +17,7 @@ pub enum LLVMOpaqueExecutionEngine {}
 #[derive(Debug)]
 pub enum LLVMOpaqueMCJITMemoryManager {}
 
+pub type LLVMGenericValueArrayRef = *mut LLVMOpaqueGenericValueArrayRef;
 pub type LLVMGenericValueRef = *mut LLVMOpaqueGenericValue;
 pub type LLVMExecutionEngineRef = *mut LLVMOpaqueExecutionEngine;
 pub type LLVMMCJITMemoryManagerRef = *mut LLVMOpaqueMCJITMemoryManager;
@@ -95,6 +99,13 @@ extern "C" {
         Index: u64,
     ) -> LLVMGenericValueRef;
     pub fn LLVMGetAggregateGenericValueLength(GenValRef: LLVMGenericValueRef) -> ::libc::size_t;
+    pub fn LLVMGenericValueArrayRefGetElementAt(
+        GenArray: LLVMGenericValueArrayRef,
+        Index: u64,
+    ) -> LLVMGenericValueRef;
+
+    pub fn LLVMGenericValueArrayRefLength(GenArray: LLVMGenericValueArrayRef) -> u64;
+
     pub fn LLVMDisposeGenericValue(GenVal: LLVMGenericValueRef);
     // Operations on execution engines
     pub fn LLVMCreateExecutionEngineForModule(

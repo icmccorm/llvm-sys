@@ -1,4 +1,4 @@
-use crate::execution_engine::LLVMGenericValueRef;
+use crate::execution_engine::{LLVMGenericValueArrayRef, LLVMGenericValueRef};
 use crate::prelude::LLVMTypeRef;
 
 #[repr(C)]
@@ -73,8 +73,7 @@ pub type MiriCallByNameHook = ::std::option::Option<
     unsafe extern "C-unwind" fn(
         ctx_raw: *mut MiriInterpCxOpaque,
         ret_ref: LLVMGenericValueRef,
-        args_ref: LLVMGenericValueRef,
-        num_args: u64,
+        args_ref: LLVMGenericValueArrayRef,
         name: *const ::std::os::raw::c_char,
         name_length: u64,
         tref: LLVMTypeRef,
@@ -85,8 +84,7 @@ pub type MiriCallByPointerHook = ::std::option::Option<
         ctx_raw: *mut MiriInterpCxOpaque,
         fn_ref: MiriPointer,
         ret_ref: LLVMGenericValueRef,
-        args_ref: LLVMGenericValueRef,
-        num_args: u64,
+        args_ref: LLVMGenericValueArrayRef,
         tref: LLVMTypeRef,
     ) -> bool,
 >;
