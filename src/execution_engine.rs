@@ -56,6 +56,7 @@ extern "C" {
     pub fn LLVMLinkInMCJIT();
     pub fn LLVMLinkInInterpreter();
     // Operations on generic values
+    pub fn LLVMCreateGenericValueOfData(Data: *const u8, Len: u32) -> LLVMGenericValueRef;
     pub fn LLVMCreateGenericValueOfInt(
         Ty: LLVMTypeRef,
         N: ::libc::c_ulonglong,
