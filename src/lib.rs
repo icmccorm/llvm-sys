@@ -121,7 +121,6 @@ pub mod target;
 pub mod target_machine;
 
 pub mod transforms {
-    pub mod aggressive_instcombine;
     pub mod instcombine;
     pub mod ipo;
     pub mod pass_builder;
@@ -226,6 +225,7 @@ pub enum LLVMTypeKind {
     LLVMScalableVectorTypeKind = 17,
     LLVMBFloatTypeKind = 18,
     LLVMX86_AMXTypeKind = 19,
+    LLVMTargetExtTypeKind = 20,
 }
 
 #[repr(C)]
@@ -356,6 +356,7 @@ pub enum LLVMValueKind {
 
     LLVMInstructionValueKind,
     LLVMPoisonValueKind,
+    LLVMConstantTargetNoneValueKind,
 }
 
 #[repr(C)]

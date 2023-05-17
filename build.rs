@@ -314,6 +314,9 @@ fn get_system_libcpp() -> Option<&'static str> {
         Some("c++")
     } else if target_os_is("freebsd") {
         Some("c++")
+    } else if target_env_is("musl") {
+        // The one built with musl.
+        Some("c++")
     } else {
         // Otherwise assume GCC's libstdc++.
         // This assumption is probably wrong on some platforms, but would need
@@ -386,6 +389,10 @@ fn is_llvm_debug() -> bool {
 fn main() {
     // Behavior can be significantly affected by these vars.
     println!("cargo:rerun-if-env-changed={}", &*ENV_LLVM_PREFIX);
+    if let Ok(path) = env::var(&*ENV_LLVM_PREFIX) {
+        println!("cargo:rerun-if-changed={}", path);
+    }
+
     println!("cargo:rerun-if-env-changed={}", &*ENV_IGNORE_BLOCKLIST);
     println!("cargo:rerun-if-env-changed={}", &*ENV_STRICT_VERSIONING);
     println!("cargo:rerun-if-env-changed={}", &*ENV_NO_CLEAN_CFLAGS);
@@ -426,7 +433,8 @@ fn main() {
 
     // Link system libraries
     for name in get_system_libraries() {
-        println!("cargo:rustc-link-lib=dylib={}", name);
+        let link_type = if target_env_is("musl") { "static" } else { "dylib" };
+        println!("cargo:rustc-link-lib={}={}", link_type, name);
     }
 
     let use_debug_msvcrt = env::var_os(&*ENV_USE_DEBUG_MSVCRT).is_some();
