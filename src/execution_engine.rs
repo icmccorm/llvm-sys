@@ -175,6 +175,19 @@ extern "C" {
         EE: LLVMExecutionEngineRef,
         IncomingPtrToInt: MiriPtrToInt,
     );
+    pub fn LLVMExecutionEngineStepThread(EE: LLVMExecutionEngineRef, ThreadID: u64) -> LLVMBool;
+
+    pub fn LLVMExecutionEngineCreateThread(
+        EE: LLVMExecutionEngineRef,
+        ThreadID: u64,
+        F: LLVMValueRef,
+        NumArgs: u32,
+        Args: *mut LLVMGenericValueRef,
+    ) -> LLVMGenericValueRef;
+
+    pub fn LLVMExecutionEngineHasThread(EE: LLVMExecutionEngineRef, ThreadID: u64) -> LLVMBool;
+
+    pub fn LLVMExecutionEngineTerminateThread(EE: LLVMExecutionEngineRef, ThreadID: u64);
 
     /// Create an MCJIT execution engine for a module, with the given options.
     ///
