@@ -108,6 +108,8 @@ extern "C" {
     pub fn LLVMGenericValueArrayRefLength(GenArray: LLVMGenericValueArrayRef) -> u64;
 
     pub fn LLVMDisposeGenericValue(GenVal: LLVMGenericValueRef);
+
+    pub fn LLVMGenericValueCopy(Src: LLVMGenericValueRef, Dest: LLVMGenericValueRef);
     // Operations on execution engines
     pub fn LLVMCreateExecutionEngineForModule(
         OutEE: *mut LLVMExecutionEngineRef,
