@@ -1,3 +1,4 @@
+#![feature(drain_filter)]
 extern crate cc;
 #[macro_use]
 extern crate lazy_static;
@@ -358,7 +359,7 @@ fn get_link_libraries() -> Vec<String> {
         .collect::<Vec<String>>()
 }
 
-fn get_llvm_cflags() -> String {
+fn get_llvm_cflags() -> (String, Option<Vec<String>>) {
     let output = llvm_config("--cflags");
 
     // llvm-config includes cflags from its own compilation with --cflags that
@@ -371,14 +372,15 @@ fn get_llvm_cflags() -> String {
         // MSVC doesn't accept -W... options, so don't try to strip them and
         // possibly strip something that should be retained. Also do nothing if
         // the user requests it.
-        return output;
+        return (output, None);
     }
+    let config = llvm_config("--cflags");
+    let mut parts =
+        config.split(&[' ', '\n'][..]).filter(|word| !word.starts_with("-W")).collect::<Vec<_>>();
 
-    llvm_config("--cflags")
-        .split(&[' ', '\n'][..])
-        .filter(|word| !word.starts_with("-W"))
-        .collect::<Vec<_>>()
-        .join(" ")
+    let include_dirs =
+        parts.drain_filter(|s| s.starts_with("-I")).map(|s| s[2..].to_owned()).collect::<Vec<_>>();
+    (parts.join(" "), Some(include_dirs))
 }
 
 fn is_llvm_debug() -> bool {
@@ -403,7 +405,6 @@ fn main() {
         // exit early as we don't need to do anything and llvm-config isn't needed at all
         return;
     }
-
     if LLVM_CONFIG_PATH.is_none() {
         println!("cargo:rustc-cfg=LLVM_SYS_NOT_FOUND");
         return;
@@ -411,8 +412,12 @@ fn main() {
 
     // Build the extra wrapper functions.
     if !cfg!(feature = "disable-alltargets-init") {
-        std::env::set_var("CFLAGS", get_llvm_cflags());
-        cc::Build::new().file("wrappers/target.c").compile("targetwrappers");
+        let (cflags, includes) = get_llvm_cflags();
+        std::env::set_var("CFLAGS", cflags);
+        cc::Build::new()
+            .file("wrappers/target.c")
+            .includes(includes.unwrap_or_default())
+            .compile("targetwrappers");
     }
 
     if cfg!(feature = "no-llvm-linking") {
