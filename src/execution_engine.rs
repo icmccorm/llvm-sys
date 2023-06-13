@@ -177,6 +177,9 @@ extern "C" {
         EE: LLVMExecutionEngineRef,
         IncomingPtrToInt: MiriPtrToInt,
     );
+
+    pub fn LLVMExecutionEngineSetMiriRegisterGlobalHook(EE: LLVMExecutionEngineRef, GlobalHook: MiriRegisterGlobalHook);
+
     pub fn LLVMExecutionEngineStepThread(EE: LLVMExecutionEngineRef, ThreadID: u64) -> LLVMBool;
 
     pub fn LLVMExecutionEngineCreateThread(
@@ -190,12 +193,6 @@ extern "C" {
     pub fn LLVMExecutionEngineHasThread(EE: LLVMExecutionEngineRef, ThreadID: u64) -> LLVMBool;
 
     pub fn LLVMExecutionEngineTerminateThread(EE: LLVMExecutionEngineRef, ThreadID: u64);
-
-    pub fn LLVMGetMiriPointerToGlobalByName(
-        EE: LLVMExecutionEngineRef,
-        Name: *const ::libc::c_char,
-    ) -> MiriPointer;
-
     /// Create an MCJIT execution engine for a module, with the given options.
     ///
     /// It is
