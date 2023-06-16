@@ -178,9 +178,16 @@ extern "C" {
         IncomingPtrToInt: MiriPtrToInt,
     );
 
-    pub fn LLVMExecutionEngineSetMiriRegisterGlobalHook(EE: LLVMExecutionEngineRef, GlobalHook: MiriRegisterGlobalHook);
+    pub fn LLVMExecutionEngineSetMiriRegisterGlobalHook(
+        EE: LLVMExecutionEngineRef,
+        GlobalHook: MiriRegisterGlobalHook,
+    );
 
-    pub fn LLVMExecutionEngineStepThread(EE: LLVMExecutionEngineRef, ThreadID: u64) -> LLVMBool;
+    pub fn LLVMExecutionEngineStepThread(
+        EE: LLVMExecutionEngineRef,
+        ThreadID: u64,
+        PendingReturn: LLVMGenericValueRef,
+    ) -> LLVMBool;
 
     pub fn LLVMExecutionEngineCreateThread(
         EE: LLVMExecutionEngineRef,

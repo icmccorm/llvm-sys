@@ -76,7 +76,6 @@ pub type MiriCallByNameHook = ::std::option::Option<
         name: *const ::std::os::raw::c_char,
         name_length: u64,
         tref: LLVMTypeRef,
-        retref: LLVMGenericValueRef,
     ) -> bool,
 >;
 pub type MiriCallByPointerHook = ::std::option::Option<
@@ -85,7 +84,6 @@ pub type MiriCallByPointerHook = ::std::option::Option<
         fn_ref: MiriPointer,
         args_ref: LLVMGenericValueArrayRef,
         tref: LLVMTypeRef,
-        retref: LLVMGenericValueRef,
     ) -> bool,
 >;
 
