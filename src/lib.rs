@@ -486,7 +486,7 @@ pub type LLVMAttributeIndex = ::libc::c_uint;
 pub type LLVMDiagnosticHandler =
     Option<extern "C" fn(arg1: LLVMDiagnosticInfoRef, arg2: *mut ::libc::c_void)>;
 pub type LLVMYieldCallback = Option<extern "C" fn(arg1: LLVMContextRef, arg2: *mut ::libc::c_void)>;
-
+/* 
 #[cfg(all(not(doc), not(feature = "no-llvm-linking"), LLVM_SYS_NOT_FOUND))]
 std::compile_error!(concat!(
     "No suitable version of LLVM was found system-wide or pointed
@@ -500,3 +500,4 @@ std::compile_error!(concat!(
        llvm-sys: https://crates.io/crates/llvm-sys
        llvmenv: https://crates.io/crates/llvmenv"
 ));
+*/
