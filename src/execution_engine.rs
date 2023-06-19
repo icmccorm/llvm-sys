@@ -109,7 +109,6 @@ extern "C" {
 
     pub fn LLVMDisposeGenericValue(GenVal: LLVMGenericValueRef);
 
-    pub fn LLVMGenericValueCopy(Src: LLVMGenericValueRef, Dest: LLVMGenericValueRef);
     // Operations on execution engines
     pub fn LLVMCreateExecutionEngineForModule(
         OutEE: *mut LLVMExecutionEngineRef,
@@ -180,7 +179,7 @@ extern "C" {
 
     pub fn LLVMExecutionEngineSetMiriRegisterGlobalHook(EE: LLVMExecutionEngineRef, GlobalHook: MiriRegisterGlobalHook);
 
-    pub fn LLVMExecutionEngineStepThread(EE: LLVMExecutionEngineRef, ThreadID: u64) -> LLVMBool;
+    pub fn LLVMExecutionEngineStepThread(EE: LLVMExecutionEngineRef, ThreadID: u64, PendingReturn: LLVMGenericValueRef) -> LLVMBool;
 
     pub fn LLVMExecutionEngineCreateThread(
         EE: LLVMExecutionEngineRef,
