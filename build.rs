@@ -359,7 +359,11 @@ fn get_link_libraries() -> Vec<String> {
         .collect::<Vec<String>>()
 }
 
+<<<<<<< HEAD
 fn get_llvm_cflags() -> (String, Option<Vec<String>>) {
+=======
+fn get_llvm_cflags() -> (String, Vec<String>) {
+>>>>>>> 08c7534cba18ded3581c98f475aca19562b0fa48
     let output = llvm_config("--cflags");
 
     // llvm-config includes cflags from its own compilation with --cflags that
@@ -372,15 +376,17 @@ fn get_llvm_cflags() -> (String, Option<Vec<String>>) {
         // MSVC doesn't accept -W... options, so don't try to strip them and
         // possibly strip something that should be retained. Also do nothing if
         // the user requests it.
-        return (output, None);
+        return (output, Vec::new());
     }
-    let config = llvm_config("--cflags");
-    let mut parts =
-        config.split(&[' ', '\n'][..]).filter(|word| !word.starts_with("-W")).collect::<Vec<_>>();
-
-    let include_dirs =
-        parts.drain_filter(|s| s.starts_with("-I")).map(|s| s[2..].to_owned()).collect::<Vec<_>>();
-    (parts.join(" "), Some(include_dirs))
+    let config_output = llvm_config("--cflags");
+    let segments = config_output.split(&[' ', '\n'][..]);
+    let includes: Vec<String> = segments
+        .clone()
+        .filter(|w| w.starts_with("-I") && w.len() > 2)
+        .map(|s| s[2..].to_string())
+        .collect();
+    let all = segments.filter(|word| !word.starts_with("-W")).collect::<Vec<_>>().join(" ");
+    (all, includes)
 }
 
 fn is_llvm_debug() -> bool {
@@ -412,12 +418,14 @@ fn main() {
 
     // Build the extra wrapper functions.
     if !cfg!(feature = "disable-alltargets-init") {
-        let (cflags, includes) = get_llvm_cflags();
-        std::env::set_var("CFLAGS", cflags);
-        cc::Build::new()
-            .file("wrappers/target.c")
-            .includes(includes.unwrap_or_default())
-            .compile("targetwrappers");
+        let (all, includes) = get_llvm_cflags();
+        std::env::set_var("CFLAGS", all);
+        let mut cmd = cc::Build::new();
+        cmd.file("wrappers/target.c");
+        for include in includes {
+            cmd.include(include);
+        }
+        cmd.compile("targetwrappers");
     }
 
     if cfg!(feature = "no-llvm-linking") {
