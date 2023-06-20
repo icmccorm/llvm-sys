@@ -359,11 +359,7 @@ fn get_link_libraries() -> Vec<String> {
         .collect::<Vec<String>>()
 }
 
-<<<<<<< HEAD
-fn get_llvm_cflags() -> (String, Option<Vec<String>>) {
-=======
 fn get_llvm_cflags() -> (String, Vec<String>) {
->>>>>>> 08c7534cba18ded3581c98f475aca19562b0fa48
     let output = llvm_config("--cflags");
 
     // llvm-config includes cflags from its own compilation with --cflags that
