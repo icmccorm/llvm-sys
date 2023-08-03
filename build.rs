@@ -1,3 +1,4 @@
+#![feature(drain_filter)]
 extern crate cc;
 #[macro_use]
 extern crate lazy_static;
@@ -582,7 +583,6 @@ fn main() {
         // exit early as we don't need to do anything and llvm-config isn't needed at all
         return;
     }
-
     if LLVM_CONFIG_PATH.is_none() {
         println!("cargo:rustc-cfg=LLVM_SYS_NOT_FOUND");
         return;
