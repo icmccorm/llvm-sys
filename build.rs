@@ -1,4 +1,3 @@
-#![feature(drain_filter)]
 extern crate cc;
 #[macro_use]
 extern crate lazy_static;
@@ -535,7 +534,7 @@ impl LinkingPreferences {
     }
 }
 
-fn get_llvm_cflags() -> String {
+fn get_llvm_cflags() -> (String, Vec<String>) {
     let output = llvm_config("--cflags");
 
     // llvm-config includes cflags from its own compilation with --cflags that
