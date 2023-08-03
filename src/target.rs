@@ -106,7 +106,7 @@ extern "C" {
     pub fn LLVMInitializeBPFTarget();
     pub fn LLVMInitializeBPFTargetMC();
     pub fn LLVMInitializeBPFAsmPrinter();
-    // No AsmParser
+    pub fn LLVMInitializeBPFAsmParser();
     pub fn LLVMInitializeBPFDisassembler();
 
     pub fn LLVMInitializeLanaiTargetInfo();
@@ -122,6 +122,13 @@ extern "C" {
     pub fn LLVMInitializeRISCVAsmPrinter();
     pub fn LLVMInitializeRISCVAsmParser();
     pub fn LLVMInitializeRISCVDisassembler();
+
+    pub fn LLVMInitializeLoongArchTargetInfo();
+    pub fn LLVMInitializeLoongArchTarget();
+    pub fn LLVMInitializeLoongArchTargetMC();
+    pub fn LLVMInitializeLoongArchAsmPrinter();
+    pub fn LLVMInitializeLoongArchAsmParser();
+    pub fn LLVMInitializeLoongArchDisassembler();
 
     pub fn LLVMInitializeWebAssemblyTargetInfo();
     pub fn LLVMInitializeWebAssemblyTarget();
