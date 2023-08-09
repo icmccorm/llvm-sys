@@ -583,7 +583,7 @@ fn main() {
         return;
     }
     if LLVM_CONFIG_PATH.is_none() {
-        println!("cargo:rustc-cfg=LLVM_SYS_NOT_FOUND");
+        //println!("cargo:rustc-cfg=LLVM_SYS_NOT_FOUND");
         return;
     }
 
