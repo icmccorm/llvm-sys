@@ -85,10 +85,6 @@ extern "C" {
     pub fn LLVMGenericValueSetFloatValue(GenVal: LLVMGenericValueRef, FloatVal: ::libc::c_float);
     pub fn LLVMGenericValueSetIntValue(GenVal: LLVMGenericValueRef, Src: u64, LoadBytes: u32);
     pub fn LLVMGenericValueSetMiriPointerValue(GenVal: LLVMGenericValueRef, Ptr: MiriPointer);
-    pub fn LLVMGenericValueSetMiriParentPointerValue(
-        GenVal: LLVMGenericValueRef,
-        PointerMetaVal: MiriPointer,
-    );
     pub fn LLVMCreateAggregateGenericValue(NumMembers: u64) -> LLVMGenericValueRef;
     pub fn LLVMGenericValueAppendAggregateValue(
         GenVal: LLVMGenericValueRef,
