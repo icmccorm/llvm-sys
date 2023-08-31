@@ -69,10 +69,7 @@ extern "C" {
         N: ::libc::c_double,
     ) -> LLVMGenericValueRef;
     pub fn LLVMGenericValueIntWidth(GenValRef: LLVMGenericValueRef) -> ::libc::c_uint;
-    pub fn LLVMGenericValueToInt(
-        GenVal: LLVMGenericValueRef,
-        IsSigned: LLVMBool,
-    ) -> ::libc::c_ulonglong;
+    pub fn LLVMGenericValueToInt(GenVal: LLVMGenericValueRef) -> APIntPointer;
     pub fn LLVMGenericValueToPointer(GenVal: LLVMGenericValueRef) -> *mut ::libc::c_void;
     pub fn LLVMGenericValueToMiriPointer(GenVal: LLVMGenericValueRef) -> MiriPointer;
     pub fn LLVMGenericValueToFloat(
@@ -83,7 +80,7 @@ extern "C" {
     pub fn LLVMGenericValueToFloatDouble(GenVal: LLVMGenericValueRef) -> ::libc::c_double;
     pub fn LLVMGenericValueSetDoubleValue(GenVal: LLVMGenericValueRef, DoubleVal: ::libc::c_double);
     pub fn LLVMGenericValueSetFloatValue(GenVal: LLVMGenericValueRef, FloatVal: ::libc::c_float);
-    pub fn LLVMGenericValueSetIntValue(GenVal: LLVMGenericValueRef, Src: u64, LoadBytes: u32);
+    pub fn LLVMGenericValueSetIntValue(GenVal: LLVMGenericValueRef, Data: *const u64, Bytes: u64);
     pub fn LLVMGenericValueSetMiriPointerValue(GenVal: LLVMGenericValueRef, Ptr: MiriPointer);
     pub fn LLVMCreateAggregateGenericValue(NumMembers: u64) -> LLVMGenericValueRef;
     pub fn LLVMGenericValueAppendAggregateValue(

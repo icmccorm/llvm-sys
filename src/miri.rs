@@ -14,6 +14,14 @@ pub struct MiriPointer {
     pub addr: u64,
     pub prov: MiriProvenance,
 }
+
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct APIntPointer {
+    pub data: *const u64,
+    pub words: u8
+}
+
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
 pub struct MiriErrorTrace {
