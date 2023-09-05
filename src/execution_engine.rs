@@ -68,6 +68,12 @@ extern "C" {
         Ty: LLVMTypeRef,
         N: ::libc::c_double,
     ) -> LLVMGenericValueRef;
+    pub fn LLVMCreateGenericValueOfFloatSingle(
+        N: ::libc::c_float,
+    ) -> LLVMGenericValueRef;
+    pub fn LLVMCreateGenericValueOfFloatDouble(
+        N: ::libc::c_double,
+    ) -> LLVMGenericValueRef;
     pub fn LLVMGenericValueIntWidth(GenValRef: LLVMGenericValueRef) -> ::libc::c_uint;
     pub fn LLVMGenericValueToInt(GenVal: LLVMGenericValueRef) -> APIntPointer;
     pub fn LLVMGenericValueToPointer(GenVal: LLVMGenericValueRef) -> *mut ::libc::c_void;
