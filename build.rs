@@ -543,7 +543,7 @@ fn main() {
 
     let llvm_config_path = match locate_llvm_config() {
         None => {
-            println!("cargo:rustc-cfg=LLVM_SYS_NOT_FOUND");
+           // println!("cargo:rustc-cfg=LLVM_SYS_NOT_FOUND");
             return;
         }
         Some(llvm_config_path) => llvm_config_path,
