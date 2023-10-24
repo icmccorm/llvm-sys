@@ -68,12 +68,8 @@ extern "C" {
         Ty: LLVMTypeRef,
         N: ::libc::c_double,
     ) -> LLVMGenericValueRef;
-    pub fn LLVMCreateGenericValueOfFloatSingle(
-        N: ::libc::c_float,
-    ) -> LLVMGenericValueRef;
-    pub fn LLVMCreateGenericValueOfFloatDouble(
-        N: ::libc::c_double,
-    ) -> LLVMGenericValueRef;
+    pub fn LLVMCreateGenericValueOfFloatSingle(N: ::libc::c_float) -> LLVMGenericValueRef;
+    pub fn LLVMCreateGenericValueOfFloatDouble(N: ::libc::c_double) -> LLVMGenericValueRef;
     pub fn LLVMGenericValueIntWidth(GenValRef: LLVMGenericValueRef) -> ::libc::c_uint;
     pub fn LLVMGenericValueToInt(GenVal: LLVMGenericValueRef) -> APIntPointer;
     pub fn LLVMGenericValueToPointer(GenVal: LLVMGenericValueRef) -> *mut ::libc::c_void;
@@ -201,6 +197,23 @@ extern "C" {
     pub fn LLVMExecutionEngineHasThread(EE: LLVMExecutionEngineRef, ThreadID: u64) -> LLVMBool;
 
     pub fn LLVMExecutionEngineTerminateThread(EE: LLVMExecutionEngineRef, ThreadID: u64);
+
+    pub fn LLVMExecutionEngineGetConstructorCount(EE: LLVMExecutionEngineRef) -> u64;
+
+    pub fn LLVMExecutionEngineGetDestructorCount(EE: LLVMExecutionEngineRef) -> u64;
+
+    pub fn LLVMExecutionEngineGetConstructorAtIndex(
+        EE: LLVMExecutionEngineRef,
+        Index: u64,
+    ) -> LLVMValueRef;
+
+    pub fn LLVMExecutionEngineGetDestructorAtIndex(
+        EE: LLVMExecutionEngineRef,
+        Index: u64,
+    ) -> LLVMValueRef;
+
+    pub fn LLVMExecutionEngineInitializeConstructorDestructorLists(EE: LLVMExecutionEngineRef);
+
     /// Create an MCJIT execution engine for a module, with the given options.
     ///
     /// It is
