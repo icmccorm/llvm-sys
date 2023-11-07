@@ -100,6 +100,8 @@ pub type MiriStackTraceRecorderHook = ::std::option::Option<
         ctx_raw: *mut MiriInterpCxOpaque,
         traces: *const MiriErrorTrace,
         num_traces: u64,
+        instruction_ptr: *const ::std::os::raw::c_char,
+        instruction_len: u64,
     ),
 >;
 pub type MiriRegisterGlobalHook = ::std::option::Option<
