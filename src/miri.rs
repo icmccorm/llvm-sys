@@ -64,9 +64,11 @@ pub type MiriMemcpy = ::std::option::Option<
 pub type MiriAllocationHook = ::std::option::Option<
     unsafe extern "C-unwind" fn(arg1: *mut MiriInterpCxOpaque, arg2: u64, arg3: u64, arg4: bool) -> MiriPointer,
 >;
-pub type MiriFreeHook = ::std::option::Option<
-    unsafe extern "C-unwind" fn(arg1: *mut MiriInterpCxOpaque, arg2: MiriPointer) -> bool,
+
+pub type MiriGetElementPointerHook = ::std::option::Option<
+unsafe extern "C-unwind" fn(arg1: *mut MiriInterpCxOpaque, arg2: MiriPointer, arg3: u64) -> MiriPointer,
 >;
+
 pub type MiriLoadStoreHook = ::std::option::Option<
     unsafe extern "C-unwind" fn(
         arg1: *mut MiriInterpCxOpaque,

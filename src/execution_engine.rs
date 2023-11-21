@@ -147,6 +147,10 @@ extern "C" {
         EE: LLVMExecutionEngineRef,
         IncomingLoadHook: MiriLoadStoreHook,
     );
+    pub fn LLVMExecutionEngineSetMiriGetElementPointerHook(
+        EE: LLVMExecutionEngineRef,
+        IncomingGetElementPointerHook: MiriGetElementPointerHook,
+    );
     pub fn LLVMExecutionEngineSetMiriStoreHook(
         EE: LLVMExecutionEngineRef,
         IncomingStoreHook: MiriLoadStoreHook,
