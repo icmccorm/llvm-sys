@@ -2,11 +2,11 @@ extern crate anyhow;
 extern crate cc;
 #[macro_use]
 extern crate lazy_static;
-extern crate regex;
+extern crate regex_lite;
 extern crate semver;
 
 use anyhow::Context as _;
-use regex::Regex;
+use regex_lite::Regex;
 use semver::Version;
 use std::env;
 use std::ffi::OsStr;
@@ -277,6 +277,13 @@ fn get_system_libraries(llvm_config_path: &Path, kind: LibraryKind) -> Vec<Strin
                             return flag;
                         }
                     }
+
+                    if let Some(i) = flag.find(".so.") {
+                        // On some distributions (OpenBSD, perhaps others), we get sonames
+                        // like "-lz.so.7.0". Correct those by pruning the file extension
+                        // and library version.
+                        return &flag[..i];
+                    }
                     return flag;
                 }
 
@@ -310,6 +317,20 @@ fn get_system_libraries(llvm_config_path: &Path, kind: LibraryKind) -> Vec<Strin
         .collect()
 }
 
+/// Return additional linker search paths that should be used but that are not discovered
+/// by other means.
+///
+/// In particular, this should include only directories that are known from platform-specific
+/// knowledge that aren't otherwise discovered from either `llvm-config` or a linked library
+/// that includes an absolute path.
+fn get_system_library_dirs() -> impl IntoIterator<Item=&'static str> {
+    if target_os_is("openbsd") {
+        Some("/usr/local/lib")
+    } else {
+        None
+    }
+}
+
 fn target_dylib_extension() -> &'static str {
     if target_os_is("macos") { ".dylib" } else { ".so" }
 }
@@ -327,7 +348,7 @@ fn get_system_libcpp() -> Option<&'static str> {
         // latest, at the cost of breaking the build on older OS releases
         // when LLVM was built against libstdc++.
         Some("c++")
-    } else if target_os_is("freebsd") {
+    } else if target_os_is("freebsd") || target_os_is("openbsd") {
         Some("c++")
     } else if target_env_is("musl") {
         // The one built with musl.
@@ -574,6 +595,9 @@ fn main() {
 
     // Link LLVM libraries
     println!("cargo:rustc-link-search=native={}", libdir);
+    for link_search_dir in get_system_library_dirs() {
+        println!("cargo:rustc-link-search=native={}", link_search_dir);
+    }
     // We need to take note of what kind of libraries we linked to, so that
     // we can link to the same kind of system libraries
     let (kind, libs) = get_link_libraries(&llvm_config_path, &preferences);
@@ -584,8 +608,11 @@ fn main() {
     // Link system libraries
     // We get the system libraries based on the kind of LLVM libraries we link to, but we link to
     // system libs based on the target environment.
-    let sys_lib_kind =
-        if target_env_is("musl") { LibraryKind::Static } else { LibraryKind::Dynamic };
+    let sys_lib_kind = if cfg!(target_feature = "crt-static") {
+        LibraryKind::Static
+    } else {
+        LibraryKind::Dynamic
+    };
     for name in get_system_libraries(&llvm_config_path, kind) {
         println!("cargo:rustc-link-lib={}={}", sys_lib_kind.string(), name);
     }

@@ -1,14 +1,16 @@
-image: rust:bullseye
+image: rust:1
 
 variables:
-  LLVM_SYS_170_FFI_WORKAROUND: "YES"
+  LLVM_SYS_180_FFI_WORKAROUND: "YES"
 
 before_script:
   - apt-get update -qq && apt-get install -qq -y lsb-release software-properties-common
   - wget https://apt.llvm.org/llvm.sh
   - chmod +x llvm.sh
-  - ./llvm.sh 17
-  - apt-get install libpolly-17-dev
+  # Workaround for https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1043101
+  - echo >> /etc/apt/sources.list
+  - ./llvm.sh 18
+  - apt-get install -qq -y libpolly-18-dev libzstd-dev
 
 test:
   script:
