@@ -1,5 +1,4 @@
 extern crate anyhow;
-extern crate cc;
 #[macro_use]
 extern crate lazy_static;
 extern crate regex_lite;

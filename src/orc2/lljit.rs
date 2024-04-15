@@ -1,5 +1,4 @@
 use super::*;
-use error::LLVMErrorRef;
 use prelude::*;
 
 pub type LLVMOrcLLJITBuilderObjectLinkingLayerCreatorFunction =
